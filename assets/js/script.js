@@ -2,7 +2,6 @@ const main = document.getElementById("main");
 const themeSong = new Audio(
   "./assets/audio/Interstellar Main Theme  Extra Extended  Soundtrack by  Hans Zimmer.mp3"
 );
-const waterSplash = new Audio("./assets/audio/water-splash.mp3");
 const success = new Audio("./assets/audio/success.mp3");
 const death = new Audio("./assets/audio/death.mp3");
 const deathMusic = new Audio("./assets/audio/death-music.mp3")
@@ -99,7 +98,6 @@ function startGame(word) {
   const wordDisplay = document.querySelector(".word-display"),
     keyBoard = document.querySelector(".keyboard"),
     guessesText = document.querySelector(".hearts"),
-    water = document.querySelector(".water"),
     modal = document.querySelector(".game__modal"),
     gamma = document.querySelector(".alien__box .gamma"),
     continueBtn = document.querySelector(".continue"),
@@ -107,7 +105,8 @@ function startGame(word) {
   const maxGuesses = 6;
   const gammaHeight = document.querySelector('.container .wrapper').offsetHeight - (document.querySelector('.box__container img').offsetHeight + document.querySelector('.alien__box img').offsetHeight);
   let check;
-  let currentWord,
+  let orginalWord,
+    currentWord,
     wrongGuessCount,
     correctLetter = [];
 
@@ -128,14 +127,20 @@ function startGame(word) {
     keyBoard.querySelectorAll("button").forEach(function (btn) {
       btn.disabled = false;
     });
-
+    let keyword = "";
     // Ẩn keyword
-    wordDisplay.innerHTML = currentWord
+    orginalWord
       .split("")
-      .map(function () {
-        return `<li class="letter"></li>`;
+      .map(function (letter) {
+        if(letter.charCodeAt() !== 32){
+           keyword+=`<li class="letter"></li>`;
+        }
+        else {
+          keyword+= `<li class="space"></li>`
+        }
       })
       .join("");
+      wordDisplay.innerHTML = keyword;
       gamma.style = `
       height: 0%;
   `;
@@ -146,6 +151,7 @@ function startGame(word) {
     // Select random word from wordList
     const { word, hint } = wordList[Math.floor(Math.random() * wordList.length)];
     currentWord = word;
+    orginalWord = word;
   
     // Update hint text
     document.querySelector(".hint-text b").innerText = hint;
@@ -154,12 +160,20 @@ function startGame(word) {
     resetGame(); // Reset game state after getting a new word
 
     // Display word as empty boxes
-    wordDisplay.innerHTML = word
+    keyword = "";
+    // Ẩn keyword
+    word
       .split("")
-      .map(function () {
-        return `<li class="letter"></li>`;
+      .map(function (letter) {
+        if(letter.charCodeAt() !== 32){
+           keyword+=`<li class="letter"></li>`;
+        }
+        else {
+          keyword+= `<li class="space"></li>`
+        }
       })
       .join("");
+      wordDisplay.innerHTML = keyword;
   }
 
   // hiển thị game over
@@ -235,6 +249,9 @@ function startGame(word) {
         man.src = "./assets/img/death.png"
       },2000)
     }
+    
+    currentWord = currentWord.replaceAll(' ', '');
+    console.log(correctLetter.length, correctLetter, currentWord.length, currentWord);
     if (correctLetter.length === currentWord.length) {
       gameOver(true);
       success.play();
