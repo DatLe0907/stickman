@@ -85,7 +85,9 @@ function startGame(word) {
             Hint:
             <b>Lorem ipsum dolor sit amet consectetur adipisicing elit.</b>
           </h4>
-          <h4 class="guesses-text"></h4>
+          <div class="guesses-text">
+            <div class = "hearts"></div>
+          </div>
           <div class="keyboard"></div>
         </div>
       </div>
@@ -96,7 +98,7 @@ function startGame(word) {
 
   const wordDisplay = document.querySelector(".word-display"),
     keyBoard = document.querySelector(".keyboard"),
-    guessesText = document.querySelector(".guesses-text"),
+    guessesText = document.querySelector(".hearts"),
     water = document.querySelector(".water"),
     modal = document.querySelector(".game__modal"),
     gamma = document.querySelector(".alien__box .gamma"),
@@ -110,7 +112,7 @@ function startGame(word) {
     correctLetter = [];
 
   function resetGame() {
-    man.style.display = 'block';
+    man.src = "./assets/img/astronaut-stickman.png"
     correctLetter = [];
     wrongGuessCount = 0;
     // Hiển thị số câu trl sai
@@ -230,7 +232,7 @@ function startGame(word) {
         death.play()
       },2000)
       setTimeout(function(){
-        man.style.display = 'none';
+        man.src = "./assets/img/death.png"
       },2000)
     }
     if (correctLetter.length === currentWord.length) {
