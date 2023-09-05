@@ -104,7 +104,7 @@ function startGame(word) {
     man = document.querySelector('.box__container img');
   const maxGuesses = 6;
   const gammaHeight = document.querySelector('.container .wrapper').offsetHeight - (document.querySelector('.box__container img').offsetHeight + document.querySelector('.alien__box img').offsetHeight);
-  let check;
+  let check,index = 0;
   let orginalWord,
     currentWord,
     wrongGuessCount,
@@ -178,7 +178,10 @@ function startGame(word) {
   function getRandomWord() {
   
     // Select random word from wordList
-    const { word, hint } = wordList[Math.floor(Math.random() * wordList.length)];
+    const { word, hint } = wordList[index];
+    if(index<=wordList.length){
+      index++;
+    }
     currentWord = word;
     orginalWord = word;
   
@@ -207,7 +210,6 @@ function startGame(word) {
 
   // hiển thị game over
   function gameOver(isCompleted) {
-    setTimeout(function () {
       const modalText = isCompleted
         ? `Bạn đã tìm được từ khóa: `
         : `Từ khóa là: `;
@@ -220,7 +222,6 @@ function startGame(word) {
       modal.querySelector("p").innerHTML = `${modalText}<b>${orginalWord}</b>`;
       modal.classList.add("show");
       return (check = isCompleted);
-    }, 2000);
   }
 
   function initGame(button, inputLetter) {
@@ -269,7 +270,9 @@ function startGame(word) {
     },400)
     button.disabled = true;
     if (wrongGuessCount === maxGuesses) {
-      gameOver(false);
+      setTimeout(function(){
+        gameOver(false);
+      },2000)
       deathMusic.play();
       setTimeout(function(){
         death.play()
@@ -280,8 +283,11 @@ function startGame(word) {
     }
     
     currentWord = currentWord.replaceAll(' ', '');
+    console.log(correctLetter.length,correctLetter, currentWord);
     if (correctLetter.length === currentWord.length) {
-      gameOver(true);
+      setTimeout(function(){
+        gameOver(true);
+      },1000)
       success.play();
     }
   }

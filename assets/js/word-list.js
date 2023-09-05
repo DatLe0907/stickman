@@ -18,6 +18,10 @@ const wordList = [
     {
         word: "ba định luật newton",
         hint: "Ngoài phát hiện trọng lực thì newton còn nổi tiếng với lĩnh vực vật lý nào?"
+    },
+    {
+        word: "thí nghiệm cân trái đất",
+        hint: "Thí nghiệm canvendish còn có tên gọi khác là gì"
     }
     
 ];
