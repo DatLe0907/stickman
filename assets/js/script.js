@@ -62,8 +62,9 @@ function startGame(word) {
           <div class="modal__overlay"></div>
           <div class="modal__content">
             <img src="" alt="" />
-            <h4>Game Over!</h4>
+            <h4></h4>
             <p>Từ khóa là: <b>${word}</b></p>
+            <h1></h1>
             <button class="continue btn">Tiếp tục</button>
           </div>
         </div>
@@ -95,6 +96,7 @@ function startGame(word) {
         <p>Từ: Team IT07</p>
       </div>`;
 
+      
   const wordDisplay = document.querySelector(".word-display"),
     keyBoard = document.querySelector(".keyboard"),
     guessesText = document.querySelector(".hearts"),
@@ -179,9 +181,15 @@ function startGame(word) {
   
     // Select random word from wordList
     const { word, hint } = wordList[index];
-    if(index<=wordList.length){
+    if(index<wordList.length){
       index++;
     }
+
+    if(index === wordList.length){
+      document.querySelector(".modal__content h1").innerText = "Bạn đã hoàn thành trò chơi"
+      continueBtn.disabled = true;
+    }
+
     currentWord = word;
     orginalWord = word;
   
@@ -211,7 +219,7 @@ function startGame(word) {
   // hiển thị game over
   function gameOver(isCompleted) {
       const modalText = isCompleted
-        ? `Bạn đã tìm được từ khóa: `
+        ? `Từ khóa là: `
         : `Từ khóa là: `;
       modal.querySelector("img").src = `assets/img/${
         isCompleted ? "completed" : "lost"
@@ -283,7 +291,6 @@ function startGame(word) {
     }
     
     currentWord = currentWord.replaceAll(' ', '');
-    console.log(correctLetter.length,correctLetter, currentWord);
     if (correctLetter.length === currentWord.length) {
       setTimeout(function(){
         gameOver(true);
@@ -303,23 +310,26 @@ function startGame(word) {
     });
   }
 
-  let btnList = document.querySelectorAll(".keyboard button"),
-    keyTypedList = [];
-  document.addEventListener("keydown", function (e) {
-    btnList.forEach(function (btn) {
-      if (btn.innerText === e.key.toUpperCase()) {
-        initGame(btn, e.key);
-        keyTypedList.push(e.key.toUpperCase());
-      }
+  let btnList = document.querySelectorAll(".keyboard button");
+let keyTypedList = [];
+
+document.addEventListener("keydown", function (e) {
+  btnList.forEach(function (btn) {
+    if (btn.innerText === e.key.toUpperCase()) {
+      keyTypedList.push(e.key.toUpperCase());
       keyTypedList.forEach(function (keyTyped) {
-        if ((e.key = keyTyped)) {
+        if (e.key === keyTyped) {
           e.preventDefault();
         }
       });
-    });
-  });
+      initGame(btn, e.key);
+    }
+    console.log(keyTypedList);
 
+  });
+});
   getRandomWord();
+
   continueBtn.addEventListener("click", function () {
     getRandomWord();
     modal.classList.remove("show");
