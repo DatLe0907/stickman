@@ -16,7 +16,7 @@ const wordList = [
         hint: "Mô hình ____ là sự ảnh hưởng của một vật thể khối lượng lớn lên không gian bao xung quanh nó, tạo ra lực tác dụng lên một vật thể có khối lượng khác"
     },
     {
-        word: "ba định luật newton",
+        word: "định luật newton",
         hint: "Ngoài phát hiện trọng lực thì newton còn nổi tiếng với phát hiện nào?"
     },
     {
